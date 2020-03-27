@@ -22,11 +22,11 @@ export default function Profile() {
         }).then(response => {
             setIncidents(response.data);
         })
-     }, [ongId]);
+    }, [ongId]);
 
-        // Deletando incitentes e atualizando página
-     async function handleDeleteIncident(id) {
-         try {
+    // Deletando incitentes e atualizando página
+    async function handleDeleteIncident(id) {
+        try {
             await api.delete(`incidents/${id}`, {
                 headers: {
                     Authorization: ongId,
@@ -34,48 +34,48 @@ export default function Profile() {
             });
 
             setIncidents(incidents.filter(incident => incident.id !== id));
-         } catch(err) {
-             alert('Erro ao deletar caso, tente novamente.');
-         }
-     }
+        } catch (err) {
+            alert('Erro ao deletar caso, tente novamente.');
+        }
+    }
 
-     // logout
+    // logout
 
-     function handleLogout() {
+    function handleLogout() {
         localStorage.clear();
         history.push('/');
-     }
+    }
     return (
         <div className="profile-container">
-        <header>
-            <img src={logoImg} alt="Be the Hero" />
-            <span>Bem vinda, {ongName}</span>
+            <header>
+                <img src={logoImg} alt="Be the Hero" />
+                <span>Bem vinda, {ongName}</span>
 
-            <Link className="button" to="/incidents/new">Cadastrar novo caso</Link>
-            <button onClick={handleLogout} type="button">
-                <FiPower size={18} color="#E02041" />
-            </button>
-        </header>
-        
-        <h1>Casos Cadastrados</h1>
-        <ul> 
-            {incidents.map(incident => (
-                <li key={incident.id}>
-                <strong>CASO:</strong>
-                <p>{incident.title}</p>
-
-                <strong>DESCRIÇÃO</strong>
-                <p>{incident.description}</p>
-
-                <strong>VALOR:</strong>
-                <p>{Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL' }).format(incident.value)}</p>
-
-                <button onClick={() => handleDeleteIncident(incident.id)} type="button">
-                    <FiTrash2 size={20} color="#a8a8b3" />
+                <Link className="button" to="/incidents/new">Cadastrar novo caso</Link>
+                <button onClick={handleLogout} type="button">
+                    <FiPower size={18} color="#E02041" />
                 </button>
-            </li>
-            ))}
-        </ul>  
-    </div>
+            </header>
+
+            <h1>Casos Cadastrados</h1>
+            <ul>
+                {incidents.map(incident => (
+                    <li key={incident.id}>
+                        <strong>CASO:</strong>
+                        <p>{incident.title}</p>
+
+                        <strong>DESCRIÇÃO</strong>
+                        <p>{incident.description}</p>
+
+                        <strong>VALOR:</strong>
+                        <p>{Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(incident.value)}</p>
+
+                        <button onClick={() => handleDeleteIncident(incident.id)} type="button">
+                            <FiTrash2 size={20} color="#a8a8b3" />
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }
